@@ -3,7 +3,7 @@ services:
     image: postgres:latest
     hostname: db
     environment:
-      - POSTGRES_PASSWORD=123
+      - POSTGRES_PASSWORD=${PASSWORD}
       - POSTGRES_USER=user
       - POSTGRES_DB=coinapi
     ports:
