@@ -10,7 +10,7 @@ public class ConnectionContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     => optionsBuilder.UseNpgsql(
               "Server=localhost;" +
-              "Port=5433;Database=coin-api;" +
+              "Port=5433;Database=coinapi;" +
               "User Id=user;" +
               "Password=123;");
 
