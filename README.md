@@ -2,7 +2,8 @@
 
 ### docker-compose
 Para subir o docker use: </br>
-`docker-compose up -d`
+`docker-compose up -d` 
+
 Para remover os contêineres e os recursos criados use: </br>
 `docker-compose down`
 
