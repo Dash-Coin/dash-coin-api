@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "coin-api", "coin-api.csproj", "{F4E3481C-4211-4423-B0BA-ADD62158DC2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "coin-api", "coin-api.csproj", "{B8B18AD3-EA2F-40D2-AE52-940F1804DDEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F4E3481C-4211-4423-B0BA-ADD62158DC2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4E3481C-4211-4423-B0BA-ADD62158DC2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4E3481C-4211-4423-B0BA-ADD62158DC2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4E3481C-4211-4423-B0BA-ADD62158DC2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B18AD3-EA2F-40D2-AE52-940F1804DDEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B18AD3-EA2F-40D2-AE52-940F1804DDEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B18AD3-EA2F-40D2-AE52-940F1804DDEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B18AD3-EA2F-40D2-AE52-940F1804DDEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
