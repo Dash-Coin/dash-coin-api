@@ -1,16 +1,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace coin_api.Infra
+
+
+public class ConnectionContext : DbContext
 {
-public class ConnectionContext: DbContext
-{
+
+    public DbSet<Transaction> Transactions { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    =>  optionsBuilder.UseNpgsql(
+    => optionsBuilder.UseNpgsql(
               "Server=localhost;" +
-              "Port=5432;Database=coinapi;" +
+              "Port=5433;Database=coin-api;" +
               "User Id=user;" +
               "Password=123;");
 
-}
 }
