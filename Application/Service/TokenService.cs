@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.IdentityModel.Tokens.Jwt;
+using coin_api.Domain.Model;
 
 namespace coin_api.Application.Service
 {
@@ -27,7 +28,7 @@ namespace coin_api.Application.Service
 
             return new
             {
-                token = tokenHash;
+                token = tokenHash
             };
         }
     }
