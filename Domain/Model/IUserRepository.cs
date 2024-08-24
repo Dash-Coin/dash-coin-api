@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using coin_api.Domain.DTOs;
 
 namespace coin_api.Domain.Model
 {
@@ -9,6 +10,6 @@ namespace coin_api.Domain.Model
     {
         void Add(User user);
 
-        List<User> Get();
+        List<UserDTO> Get();
     }
 }

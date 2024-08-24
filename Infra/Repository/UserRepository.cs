@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using coin_api.Domain.DTOs;
 using coin_api.Domain.Model;
 
 namespace coin_api.Infra.Repository
@@ -19,6 +20,11 @@ namespace coin_api.Infra.Repository
         public List<User> Get()
         {
             return _context.Users.ToList();
+        }
+
+        List<UserDTO> IUserRepository.Get()
+        {
+            throw new NotImplementedException();
         }
     }
 }
