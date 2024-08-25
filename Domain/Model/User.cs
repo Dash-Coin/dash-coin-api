@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace coin_api.Domain.Model
@@ -5,9 +6,9 @@ namespace coin_api.Domain.Model
     [Table("user")]
     public class User
     {
-        public User()
-        {
-        }
+        // public User()
+        // {
+        // }
 
         public User(string name, string email)
         {
@@ -19,6 +20,7 @@ namespace coin_api.Domain.Model
         public int id { get; private set; }
         public string name { get; private set; }
         public string email { get; private set; }
+        public string password { get; private set; }
 
 
     }
