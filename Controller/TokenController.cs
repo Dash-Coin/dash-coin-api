@@ -1,9 +1,6 @@
-using coin_api.Entities;
-using coin_api.Models;
+using coin_api.Domain.DTOs;
 using coin_api.Token;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace coin_api.Controller
@@ -14,29 +11,26 @@ namespace coin_api.Controller
     {
         // REFATORAR
 
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserService _userService;
 
-
-        public TokenController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public TokenController(UserService userService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager; 
+            _userService = userService;
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CreateToken")]
-        public async Task<IActionResult> CreateToken([FromBody] InputLoginRequest Input)
+        public async Task<IActionResult> CreateToken([FromBody] UserLoginDTO Input)
         {
             if (string.IsNullOrWhiteSpace(Input.Email) || string.IsNullOrWhiteSpace(Input.Password))
                 return Unauthorized();
 
-            var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, false, lockoutOnFailure: false);
+            var result = await _userService.PasswordSignInAsync(Input.Email, Input.Password, false, lockoutOnFailure: false);
 
             if (result.Succeeded) 
             {
-                var token = new TokenJWTBuilder()
+                var token = new TokenJwtBuilder()
                     .AddSecurityKey(JwtSecurityKey.Create("JGHF4W3KHUG2867RUYFSDUIYFDT%DBHAJHKSFFY%"))
                     .AddSubject("identityAPI")
                     .AddIssuer("identityAPI.Security.Bearer")
