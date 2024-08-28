@@ -6,9 +6,12 @@ namespace coin_api.Domain.Model
     [Table("users")]
     public class User
     {
-        [Key]
-        public int id { get; init; }
-        public string email { get; private set; }
-        public string password { get; private set; }
+        public int id { get; set; }
+        public string email { get; set; } = string.Empty;
+        public byte[] senhaHash { get; set; }
+        public byte[] senha { get; set; }
+        public string? verificaToken { get; set; }
+        public string? reseteSenha { get; set; }   
+        public DateTime? expiraToken { get; set; }  
     }
 }

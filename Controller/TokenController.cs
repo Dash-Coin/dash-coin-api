@@ -26,9 +26,9 @@ namespace coin_api.Controller
             if (string.IsNullOrWhiteSpace(Input.Email) || string.IsNullOrWhiteSpace(Input.Password))
                 return Unauthorized();
 
-            var result = await _userService.PasswordSignInAsync(Input.Email, Input.Password, false, lockoutOnFailure: false);
+            var user = await _userService.PasswordSignInAsync(Input.Email, Input.Password, false, lockoutOnFailure: false);
 
-            if (result.Succeeded) 
+            if (user.Succeeded) 
             {
                 var token = new TokenJwtBuilder()
                     .AddSecurityKey(JwtSecurityKey.Create("JGHF4W3KHUG2867RUYFSDUIYFDT%DBHAJHKSFFY%"))
@@ -39,6 +39,7 @@ namespace coin_api.Controller
                     .Builder();
 
                 return Ok(token.value);
+                // return Ok(new { token = token.value, email = user.Email });
 
             }
 
