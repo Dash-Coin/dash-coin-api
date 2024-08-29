@@ -43,7 +43,7 @@ namespace coin_api.Application.Service
 
         public async Task<User?> GetUserByToken(string token)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.verificaToken == token);
+            return await _context.Users.FirstOrDefaultAsync(u => u.token == token);
         }
 
         public async Task CreateUser(User user)
@@ -57,11 +57,11 @@ namespace coin_api.Application.Service
             await _context.SaveChangesAsync();
         }
 
-        public static void CriarSenhaHash(string SenhaForte, out byte[] senhaHash, out byte[] senha)
+        public static void CriarSenhaHash(string NewPassword, out byte[] senhaHash, out byte[] senha)
         {
             using var hmac = new HMACSHA512();
             senha = hmac.Key;
-            senhaHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(SenhaForte));
+            senhaHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(NewPassword));
         }
 
         public static bool VerificarHashSenha(string senhaForte, byte[] senhaHash, byte[] senha)
@@ -73,7 +73,7 @@ namespace coin_api.Application.Service
             }
         }
 
-        public static string CriarTokenAleatorio()
+        public static string CriarToken()
         {
             var token = new TokenJwtBuilder()
                     .AddSecurityKey(JwtSecurityKey.Create("JGHF4W3KHUG2867RUYFSDUIYFDT%DBHAJHKSFFY%"))
@@ -86,5 +86,6 @@ namespace coin_api.Application.Service
             return token.value;
             // return Convert.ToHexString(RandomNumberGenerator.GetBytes(8));
         }
+
     }
 }
