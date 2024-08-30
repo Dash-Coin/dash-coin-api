@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace coin_api.Controller
 {
     [ApiController]
-    [Route("api/v1/user")]
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
@@ -25,7 +25,7 @@ namespace coin_api.Controller
         }
 
         [Authorize]
-        [HttpPost("registrar")]
+        [HttpPost("/registrar")]
         public async Task<IActionResult> Registrar(UserRegisterDTO request)
         {
             if (await _userService.UserExists(request.Email))
@@ -47,7 +47,7 @@ namespace coin_api.Controller
         }
 
         [Authorize]
-        [HttpPost("login")]
+        [HttpPost("/login")]
         public async Task<IActionResult> Login(UserLoginDTO request)
         {
             var user = await _userService.Authenticate(request.Email, request.Password);
@@ -62,7 +62,7 @@ namespace coin_api.Controller
         }
 
         // verifica se token ativo ainda é valido
-        [HttpPost("verificar")]
+        [HttpPost("/verificar")]
         public async Task<IActionResult> Verificar(string token)
         {
             var user = await _userService.GetUserByToken(token);
@@ -90,7 +90,7 @@ namespace coin_api.Controller
         //     return Ok("Senha alterada");
         // }
 
-        [HttpPost("alterar-senha")]
+        [HttpPost("/alterar-senha")]
         public async Task<IActionResult> ResetarSenha(ResetPasswordDTO request)
         {
             var user = await _userService.GetUserByEmail(request.Email);
