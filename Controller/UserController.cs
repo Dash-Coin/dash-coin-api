@@ -24,8 +24,33 @@ namespace coin_api.Controller
             _userService = userService;
         }
 
+        // [Authorize]
+        [HttpGet("listar-todos")]
+        public async Task<IActionResult> ListarTodos()
+        {
+            try
+            {
+                // Busca todos os usuários usando o serviço de usuário
+                var usuarios = await _userService.GetAllUsers();
+
+                // Verifica se a lista de usuários está vazia
+                if (usuarios == null || !usuarios.Any())
+                {
+                    return NotFound("Nenhum usuário encontrado.");
+                }
+
+                // Retorna a lista de usuários como resposta JSON
+                return Ok(usuarios);
+            }
+            catch (Exception ex)
+            {
+                // Em caso de erro, retorna um erro genérico
+                return StatusCode(500, $"Erro ao buscar usuários: {ex.Message}");
+            }
+        }
+
         [Authorize]
-        [HttpPost("/registrar")]
+        [HttpPost("registrar")]
         public async Task<IActionResult> Registrar(UserRegisterDTO request)
         {
             if (await _userService.UserExists(request.Email))
