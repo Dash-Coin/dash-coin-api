@@ -87,5 +87,9 @@ namespace coin_api.Application.Service
             // return Convert.ToHexString(RandomNumberGenerator.GetBytes(8));
         }
 
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _context.Users.ToListAsync();
+        }
     }
 }
