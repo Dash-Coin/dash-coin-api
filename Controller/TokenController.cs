@@ -21,7 +21,7 @@ namespace coin_api.Controller
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpPost("/api/create-token")]
+        [HttpPost("/create-token")]
         public async Task<IActionResult> CreateToken([FromBody] UserLoginDTO Input)
         {
             if (string.IsNullOrWhiteSpace(Input.Email) || string.IsNullOrWhiteSpace(Input.Password))
