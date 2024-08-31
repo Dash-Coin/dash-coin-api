@@ -1,7 +1,13 @@
 
 public class TransactionRepository
 {
-    private readonly ConnectionContext _context = new ConnectionContext();
+    // private readonly ConnectionContext _context = new ConnectionContext();
+
+    private readonly ConnectionContext _context;
+    public TransactionRepository(ConnectionContext context)
+        {
+            _context = context;
+        }
 
     public void Add(Transaction transaction)
     {
