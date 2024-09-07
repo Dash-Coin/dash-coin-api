@@ -7,6 +7,9 @@ Para subir o docker use: </br>
 Para remover os contêineres e os recursos criados use: </br>
 `docker-compose down`
 
+Para acessar database pelo CMD: </br>
+`docker exec -it dash-coin-api-db-1 psql -U user -d coinapi`
+
 
 ### migrations
 Certifique-se que está insalado o dotnet ef, se não estiver instalado pode use o comando </br>
@@ -15,8 +18,12 @@ Certifique-se que está insalado o dotnet ef, se não estiver instalado pode use
 Com ele instalado rode o comando </br>
 `dotnet ef migrations add <nome-migration>`
 
+Criar projeto da sulotion
+`dotnet build coin-api.generated.sln`
+
 Agora com a migration pode dar update no banco de dados com: </br>
 `dotnet ef database update`
+
 
 ### dotnet
 Para executar o projeto use: </br>
