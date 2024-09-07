@@ -8,7 +8,7 @@ Para remover os contêineres e os recursos criados use: </br>
 `docker-compose down`
 
 Para acessar database pelo CMD: </br>
-`docker exec -it dash-coin-api-db-1 psql -U user -d coinapi`
+`docker exec -it dash-coin-api-db-1 psql -U <user> -d <nome-do-banco>`
 
 
 ### migrations
