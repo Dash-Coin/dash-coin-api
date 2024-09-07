@@ -18,7 +18,7 @@ Certifique-se que está insalado o dotnet ef, se não estiver instalado pode use
 Com ele instalado rode o comando </br>
 `dotnet ef migrations add <nome-migration>`
 
-Criar projeto da sulotion
+Criar projeto da solution </br>
 `dotnet build coin-api.generated.sln`
 
 Agora com a migration pode dar update no banco de dados com: </br>
