@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace coin_api.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20240831164522_Update_users")]
-    partial class Update_users
+    [Migration("20240910001350_AlterExpiraToken")]
+    partial class AlterExpiraToken
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,8 +64,8 @@ namespace coin_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("expiraToken")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("expiraToken")
+                        .HasColumnType("date");
 
                     b.Property<byte[]>("senha")
                         .IsRequired()

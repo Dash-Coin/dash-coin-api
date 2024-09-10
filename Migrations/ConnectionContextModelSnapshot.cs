@@ -61,8 +61,8 @@ namespace coin_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("expiraToken")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("expiraToken")
+                        .HasColumnType("date");
 
                     b.Property<byte[]>("senha")
                         .IsRequired()
@@ -77,7 +77,7 @@ namespace coin_api.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 #pragma warning restore 612, 618
         }

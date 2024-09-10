@@ -13,6 +13,7 @@ namespace coin_api.Domain.Model
         public byte[] senha { get; set; }
         public string? token { get; set; }
         // public string? reseteSenha { get; set; }   
-        public DateTime? expiraToken { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime expiraToken { get; set; }
     }
 }
