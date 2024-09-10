@@ -80,7 +80,7 @@ namespace coin_api.Application.Service
                     .AddSubject("identityAPI")
                     .AddIssuer("identityAPI.Security.Bearer")
                     .AddAudience("identityAPI.Security.Bearer")
-                    .AddExpiry(5)
+                    .AddExpiry(7200)
                     .Builder();
 
             return token.value;

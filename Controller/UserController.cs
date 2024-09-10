@@ -73,15 +73,20 @@ namespace coin_api.Controller
             return Ok("Usuário criado com sucesso");
         }
 
-        [Authorize]
-        [HttpPost("/login")]
+        // [Authorize]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDTO request)
         {
             var user = await _userService.Authenticate(request.Email, request.Password);
             if (user == null)
                 return BadRequest("Email ou senha incorretos.");
 
-            var refreshToken = UserService.CriarToken();
+            if (user.expiraToken < DateTime.Today){
+                user.token = UserService.CriarToken();            
+            }
+
+            // var refreshToken = UserService.CriarToken();
+            var refreshToken = user.token;
 
             var userLogged = new UserLoginResponse(user, refreshToken);
 
@@ -89,35 +94,28 @@ namespace coin_api.Controller
         }
 
         // verifica se token ativo ainda é valido
-        [HttpPost("/verificar")]
-        public async Task<IActionResult> Verificar(string token)
+        // atualiza o token
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> Verificar(RefreshTokenDTO request)
         {
-            var user = await _userService.GetUserByToken(token);
-            if (user == null)
+            var user = await _userService.GetUserByToken(request.Token);
+            if (user == null )
                 return BadRequest("Token inválido.");
 
-            user.expiraToken = DateTime.Today;
+            if (user.email != request.Email)
+                return BadRequest("Não há usuários com este email");
+
+            user.token = UserService.CriarToken();
+            user.expiraToken = DateTime.Today.AddDays(5);
             await _userService.SaveChanges();
 
-            return Ok("Usuário verificado.");
+            var refreshedToken = new RefreshTokenDTO(user.email, user.token);
+
+            return Ok(refreshedToken);
         }
 
-        // [HttpPost("alterar-senha")]
-        // public async Task<IActionResult> EsquecerSenha(UserLoginDTO request)
-        // {
-        //     var user = await _userService.GetUserByEmail(request.Email);
-        //     if (user == null)
-        //         return BadRequest("Usuário não encontrado.");
 
-        //     // user.reseteSenha = UserService.CriarToken();
-        //     user.expiraToken = DateTime.Now.AddDays(5);
-
-        //     await _userService.SaveChanges();
-
-        //     return Ok("Senha alterada");
-        // }
-
-        [HttpPost("/alterar-senha")]
+        [HttpPost("alterar-senha")]
         public async Task<IActionResult> ResetarSenha(ResetPasswordDTO request)
         {
             var user = await _userService.GetUserByEmail(request.Email);
@@ -138,5 +136,23 @@ namespace coin_api.Controller
 
             return Ok("Senha alterada com sucesso.");
         }
+
+
+        // [HttpPost("alterar-senha")]
+        // public async Task<IActionResult> EsquecerSenha(UserLoginDTO request)
+        // {
+        //     var user = await _userService.GetUserByEmail(request.Email);
+        //     if (user == null)
+        //         return BadRequest("Usuário não encontrado.");
+
+        //     // user.reseteSenha = UserService.CriarToken();
+        //     user.expiraToken = DateTime.Now.AddDays(5);
+
+        //     await _userService.SaveChanges();
+
+        //     return Ok("Senha alterada");
+        // }
+
+
     }
 }
