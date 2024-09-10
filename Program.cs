@@ -4,6 +4,7 @@ using coin_api;
 using coin_api.Application.Service;
 using coin_api.Controller;
 using coin_api.Domain.Model;
+using coin_api.Infra;
 using coin_api.Token;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

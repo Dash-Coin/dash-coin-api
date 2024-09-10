@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using coin_api.Application.Service;
@@ -49,7 +50,7 @@ namespace coin_api.Controller
             }
         }
 
-        [Authorize]
+        // [Authorize]
         [HttpPost("registrar")]
         public async Task<IActionResult> Registrar(UserRegisterDTO request)
         {
@@ -63,9 +64,10 @@ namespace coin_api.Controller
                 email = request.Email,
                 senhaHash = senhaHash,
                 senha = senha,
-                token = UserService.CriarToken()
+                token = UserService.CriarToken(),
+                expiraToken = DateTime.Today.AddDays(5)                
             };
-
+            
             await _userService.CreateUser(user);
 
             return Ok("Usuário criado com sucesso");
@@ -94,7 +96,7 @@ namespace coin_api.Controller
             if (user == null)
                 return BadRequest("Token inválido.");
 
-            user.expiraToken = DateTime.Now;
+            user.expiraToken = DateTime.Today;
             await _userService.SaveChanges();
 
             return Ok("Usuário verificado.");
@@ -123,7 +125,7 @@ namespace coin_api.Controller
                 return BadRequest("Usuário não encontrado.");
 
             // var userToken = await _userService.GetUserByToken(request.Token);
-            if (user.token == null || user.expiraToken < DateTime.Now)
+            if (user.token == null || user.expiraToken < DateTime.Today)
                 return BadRequest("Token inválido.");
 
             UserService.CriarSenhaHash(request.NewPassword, out byte[] senhaHash, out byte[] senha);
