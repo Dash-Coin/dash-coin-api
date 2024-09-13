@@ -61,7 +61,7 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();
 app.UseAuthorization();
