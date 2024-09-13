@@ -15,6 +15,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ConnectionContext>(options => 
          options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        policy => policy
+            .AllowAnyOrigin()  
+            .AllowAnyMethod()  
+            .AllowAnyHeader()); 
+});
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                   .AddJwtBearer(option =>
                   {
@@ -51,6 +60,8 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
