@@ -15,5 +15,12 @@ namespace coin_api.Domain.Model
         // public string? reseteSenha { get; set; }   
         [Column(TypeName = "date")]
         public DateTime expiraToken { get; set; }
+
+        // Relacionamento um para muitos com TransactionModel
+        public ICollection<TransactionModel>? Transactions { get; set; } = new List<TransactionModel>();
+
+        // Relacionamento um para muitos com CategoryModel
+        public ICollection<CategoryModel>? Categories { get; set; } = new List<CategoryModel>();
+
     }
 }

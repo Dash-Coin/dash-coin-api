@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace coin_api.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    partial class ConnectionContextModelSnapshot : ModelSnapshot
+    [Migration("20240918021152_TransactionWithCategory")]
+    partial class TransactionWithCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace coin_api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdTransaction"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
@@ -41,17 +41,10 @@ namespace coin_api.Migrations
                     b.Property<bool>("Type")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.Property<double>("Value")
                         .HasColumnType("double precision");
 
                     b.HasKey("IdTransaction");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("transaction");
                 });
@@ -67,12 +60,13 @@ namespace coin_api.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("TransactionModelId")
                         .HasColumnType("integer");
 
                     b.HasKey("IdCategory");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("TransactionModelId")
+                        .IsUnique();
 
                     b.ToTable("category");
                 });
@@ -105,49 +99,23 @@ namespace coin_api.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("coin_api.Domain.Model.CategoryModel", b =>
+                {
+                    b.HasOne("TransactionModel", "TransactionModel")
+                        .WithOne("Category")
+                        .HasForeignKey("coin_api.Domain.Model.CategoryModel", "TransactionModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TransactionModel");
                 });
 
             modelBuilder.Entity("TransactionModel", b =>
                 {
-                    b.HasOne("coin_api.Domain.Model.CategoryModel", "Category")
-                        .WithMany("Transactions")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("coin_api.Domain.Model.User", "User")
-                        .WithMany("Transactions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("coin_api.Domain.Model.CategoryModel", b =>
-                {
-                    b.HasOne("coin_api.Domain.Model.User", "User")
-                        .WithMany("Categories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("coin_api.Domain.Model.CategoryModel", b =>
-                {
-                    b.Navigation("Transactions");
-                });
-
-            modelBuilder.Entity("coin_api.Domain.Model.User", b =>
-                {
-                    b.Navigation("Categories");
-
-                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

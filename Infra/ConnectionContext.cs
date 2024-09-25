@@ -7,23 +7,33 @@ using Microsoft.EntityFrameworkCore;
 public class ConnectionContext : DbContext
 {
 
-    public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<TransactionModel> Transactions { get; set; }
     public DbSet<User> Users { get; set; }
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    // => optionsBuilder.UseNpgsql(
-    //           "Server=localhost;" +
-    //           "Port=5433;Database=coinapi;" +
-    //           "User Id=user;" +
-    //           "Password=123;");
+
+    public DbSet<CategoryModel> Categories { get; set; }
 
     public ConnectionContext(DbContextOptions<ConnectionContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.ToTable("users"); // Certifique-se de que o nome da tabela esteja correto
-        });
+        modelBuilder.Entity<User>()
+       .HasMany(u => u.Transactions)
+       .WithOne(t => t.User)
+       .HasForeignKey(t => t.UserId);
+
+        // Configurando relacionamento um para muitos entre User e Categories
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Categories)
+            .WithOne(c => c.User)
+            .HasForeignKey(c => c.UserId);
+
+        // Configurando relacionamento muitos-para-um entre TransactionModel e CategoryModel
+        modelBuilder.Entity<TransactionModel>()
+            .HasOne(t => t.Category)
+            .WithMany(c => c.Transactions)
+            .HasForeignKey(t => t.CategoryId);
+
+        base.OnModelCreating(modelBuilder);
 
     }
 
