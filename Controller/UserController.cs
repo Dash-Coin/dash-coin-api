@@ -1,16 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using coin_api.Application.Service;
-using coin_api.Application.ViewModel;
 using coin_api.Domain.DTOs;
 using coin_api.Domain.Model;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+
 
 namespace coin_api.Controller
 {
@@ -65,9 +57,9 @@ namespace coin_api.Controller
                 senhaHash = senhaHash,
                 senha = senha,
                 token = UserService.CriarToken(),
-                expiraToken = DateTime.Today.AddDays(5)                
+                expiraToken = DateTime.Today.AddDays(5)
             };
-            
+
             await _userService.CreateUser(user);
 
             return Ok("Usuário criado com sucesso");
@@ -81,8 +73,9 @@ namespace coin_api.Controller
             if (user == null)
                 return BadRequest("Email ou senha incorretos.");
 
-            if (user.expiraToken < DateTime.Today){
-                user.token = UserService.CriarToken();            
+            if (user.expiraToken < DateTime.Today)
+            {
+                user.token = UserService.CriarToken();
             }
 
             // var refreshToken = UserService.CriarToken();
@@ -99,7 +92,7 @@ namespace coin_api.Controller
         public async Task<IActionResult> Verificar(RefreshTokenDTO request)
         {
             var user = await _userService.GetUserByToken(request.Token);
-            if (user == null )
+            if (user == null)
                 return BadRequest("Token inválido.");
 
             if (user.email != request.Email)
