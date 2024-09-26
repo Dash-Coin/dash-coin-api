@@ -106,4 +106,169 @@ public class TransactionController : ControllerBase
             return StatusCode(500, $"Erro ao deletar transação: {ex.Message}");
         }
     }
+
+    [HttpGet]
+    [Route("despesas")]
+    public async Task<IActionResult> ListarDespesas()
+    {
+        try
+        {
+            var despesas = await _transactionService.GetTransactionsForType();
+
+            if (despesas == null || !despesas.Any())
+            {
+                return NotFound("Nenhuma despesa encontrada");
+            }
+
+            var totalDespesas = despesas.Sum(d => d.Value);
+
+            return Ok(new
+            {
+                TotalDespesas = totalDespesas,
+                Transacoes = despesas
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao buscar despesas: {ex.Message}");
+        }
+    }
+
+    [HttpGet]
+    [Route("receitas")]
+    public async Task<IActionResult> ListarReceitas()
+    {
+        try
+        {
+            var receita = await _transactionService.GetTransactionsForType();
+
+            if (receita == null || !receita.Any())
+            {
+                return NotFound("Nenhuma receita encontrada");
+            }
+
+            var totalReceitas = receita.Sum(d => d.Value);
+
+            return Ok(new
+            {
+                TotalReceitas = totalReceitas,
+                Transacoes = receita
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao buscar receitas: {ex.Message}");
+        }
+    }
+
+    [HttpGet]
+    [Route("receitas-mensais")]
+    public async Task<IActionResult> ListarReceitasMensais()
+    {
+        try
+        {
+            var receitasPorMes = await _transactionService.GetMonthlyIncomes();
+
+            if (receitasPorMes == null || !receitasPorMes.Any())
+            {
+                return NotFound("Nenhuma receita encontrada");
+            }
+
+            return Ok(receitasPorMes);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao buscar receitas: {ex.Message}");
+        }
+    }
+
+    [HttpGet]
+    [Route("despesas-paginas")]
+    public async Task<IActionResult> ListarDespesasPaginadas([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    {
+        try
+        {
+            var paginatedDespesas = await _transactionService.GetPaginatedForType(page, pageSize);
+
+            if (!paginatedDespesas.Any())
+            {
+                return NotFound("Nenhuma despesa encontrada");
+            }
+
+            return Ok(paginatedDespesas);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao buscar despesas: {ex.Message}");
+        }
+    }
+
+    [HttpGet]
+    [Route("receitas-paginadas")]
+    public async Task<IActionResult> ListarReceitasPaginadas([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    {
+        try
+        {
+            var paginatedReceitas = await _transactionService.GetPaginatedForType(page, pageSize);
+
+            if (!paginatedReceitas.Any())
+            {
+                return NotFound("Nenhuma receita encontrada");
+            }
+
+            return Ok(paginatedReceitas);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao buscar receitas: {ex.Message}");
+        }
+    }
+
+    [HttpGet]
+    [Route("usuario/{userId}/despesas")]
+    public async Task<IActionResult> ListarDespesasPorUsuario(int userId)
+    {
+        try
+        {
+            var despesas = await _transactionService.GetTransactionsForType(userId, false); // 0 para despesas
+
+            if (!despesas.Any())
+            {
+                return NotFound("Nenhuma despesa encontrada para este usuário.");
+            }
+
+            return Ok(despesas);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao buscar despesas do usuário: {ex.Message}");
+        }
+    }
+
+    [HttpGet]
+    [Route("usuario/{userId}/receitas")]
+    public async Task<IActionResult> ListarReceitasPorUsuario(int userId)
+    {
+        try
+        {
+            var receitas = await _transactionService.GetTransactionsForType(userId, true); // 1 para receitas
+
+            if (!receitas.Any())
+            {
+                return NotFound("Nenhuma receita encontrada para este usuário.");
+            }
+
+            return Ok(receitas);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao buscar receitas do usuário: {ex.Message}");
+        }
+    }
+
+
+
+
+
+
 }

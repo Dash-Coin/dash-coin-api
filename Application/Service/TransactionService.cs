@@ -46,5 +46,49 @@ namespace coin_api.Application.Service
             }
         }
 
+        public async Task<IEnumerable<TransactionModel>> GetTransactionsForType()
+        {
+            return await _context.Transactions
+                                 .Where(t => t.Type)
+                                 .ToListAsync();
+        }
+        public async Task<IEnumerable<object>> GetMonthlyIncomes()
+        {
+            // Filtra as receitas (Type == true) e agrupa por mês e ano
+            return await _context.Transactions
+                                 .Where(t => t.Type == true)
+                                 .GroupBy(t => new { t.Date.Year, t.Date.Month })
+                                 .Select(g => new
+                                 {
+                                     Ano = g.Key.Year,
+                                     Mes = g.Key.Month,
+                                     TotalReceitas = g.Sum(t => t.Value),
+                                     Transacoes = g.ToList()
+                                 })
+                                 .OrderBy(g => g.Ano).ThenBy(g => g.Mes) // Ordena por ano e mês
+                                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<TransactionModel>> GetPaginatedForType(int page, int pageSize)
+        {
+            return await _context.Transactions
+                                 .Where(t => t.Type) // Filtra apenas despesas
+                                 .OrderBy(t => t.Date) // Ordena por data ou qualquer outro campo
+                                 .Skip((page - 1) * pageSize) // Pula as páginas anteriores
+                                 .Take(pageSize) // Limita a quantidade de itens por página
+                                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<TransactionModel>> GetTransactionsForType(int userId, bool type)
+        {
+            return await _context.Transactions
+                                 .Where(t => t.UserId == userId && t.Type == type)
+                                 .ToListAsync();
+        }
+
+
+
+
+
     }
 }
