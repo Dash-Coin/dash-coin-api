@@ -24,8 +24,10 @@ namespace coin_api.Controller
         [HttpPost("/create-token")]
         public async Task<IActionResult> CreateToken([FromBody] UserLoginDTO Input)
         {
-            if (string.IsNullOrWhiteSpace(Input.Email) || string.IsNullOrWhiteSpace(Input.Password))
-                return Unauthorized();
+            if (string.IsNullOrWhiteSpace(Input.Email) || string.IsNullOrWhiteSpace(Input.Password)){
+                Console.WriteLine(Input.Email);
+                Console.WriteLine(Input.Password);
+                return Unauthorized();}
 
             var user = await _userService.Authenticate(Input.Email, Input.Password);
 
