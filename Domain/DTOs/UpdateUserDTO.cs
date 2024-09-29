@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace coin_api.Domain.DTOs
 {
-    public class UserDTO
+    public class UpdateUserDTO
     {
-        public int id { get; private set; }
-        public string name { get; private set; }
+        public string username { get; set; }
     }
 }

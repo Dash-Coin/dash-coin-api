@@ -65,6 +65,28 @@ namespace coin_api.Controller
             return Ok("Usuário criado com sucesso");
         }
 
+        [HttpPut]
+        [Route("atualizar/{id}")]
+        public async Task<IActionResult> Atualizar(int id, UpdateUserDTO updateUser)
+        {
+            try
+            {
+                var user = new User
+                {
+                    id = id,
+                    username = updateUser.username
+                };
+
+                await _userService.UpdateUser(user);
+
+                return Ok("Usuário atualizado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao atualizar categoria: {ex.Message}");
+            }
+        }
+
         // [Authorize]
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDTO request)

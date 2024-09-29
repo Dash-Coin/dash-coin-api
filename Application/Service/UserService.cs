@@ -46,6 +46,19 @@ namespace coin_api.Application.Service
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateUser(User userModel)
+        {
+            var user = await _context.Users.FindAsync(userModel.id);
+            if (user != null)
+            {
+                // Atualiza os campos conforme necessário
+                user.username = userModel.username;
+
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+            }
+        }
+        
         public async Task SaveChanges()
         {
             await _context.SaveChangesAsync();
