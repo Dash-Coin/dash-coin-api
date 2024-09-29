@@ -45,6 +45,11 @@ public class CategoryController : ControllerBase
                 return BadRequest("Dados da categoria inválidos.");
             }
 
+            if (string.IsNullOrWhiteSpace(registerDTO.Category))
+            {
+                return BadRequest("A Categoria precisa de um título.");
+            }
+
             var categoryModel = new CategoryModel
             {
                 Category = registerDTO.Category,
