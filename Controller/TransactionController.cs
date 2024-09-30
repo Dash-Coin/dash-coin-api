@@ -47,7 +47,8 @@ public class TransactionController : ControllerBase
             var transactionModel = new TransactionModel
             {
                 Description = registerDTO.Description,
-                Date = registerDTO.Date,
+                // Date = registerDTO.Date,
+                Date = registerDTO.Date.ToUniversalTime(), // Converte para UTC
                 Value = registerDTO.Value,
                 Type = registerDTO.Type,
                 CategoryId = registerDTO.CategoryId,
@@ -184,7 +185,7 @@ public class TransactionController : ControllerBase
 
     [HttpGet]
     [Route("despesas-paginas/{userId}")]
-    public async Task<IActionResult> ListarDespesasPaginadas(int userId [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> ListarDespesasPaginadas(int userId, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
         try
         {
@@ -205,7 +206,7 @@ public class TransactionController : ControllerBase
 
     [HttpGet]
     [Route("receitas-paginadas/{userId}")]
-    public async Task<IActionResult> ListarReceitasPaginadas(int userId [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> ListarReceitasPaginadas(int userId, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
         try
         {
