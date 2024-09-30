@@ -183,12 +183,12 @@ public class TransactionController : ControllerBase
     }
 
     [HttpGet]
-    [Route("despesas-paginas")]
-    public async Task<IActionResult> ListarDespesasPaginadas([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    [Route("despesas-paginas/{userId}")]
+    public async Task<IActionResult> ListarDespesasPaginadas(int userId [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
         try
         {
-            var paginatedDespesas = await _transactionService.GetPaginatedForType(page, pageSize);
+            var paginatedDespesas = await _transactionService.GetPaginatedForType(userId, page, pageSize);
 
             if (!paginatedDespesas.Any())
             {
@@ -204,12 +204,12 @@ public class TransactionController : ControllerBase
     }
 
     [HttpGet]
-    [Route("receitas-paginadas")]
-    public async Task<IActionResult> ListarReceitasPaginadas([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    [Route("receitas-paginadas/{userId}")]
+    public async Task<IActionResult> ListarReceitasPaginadas(int userId [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
         try
         {
-            var paginatedReceitas = await _transactionService.GetPaginatedForType(page, pageSize);
+            var paginatedReceitas = await _transactionService.GetPaginatedForType(userId, page, pageSize);
 
             if (!paginatedReceitas.Any())
             {
