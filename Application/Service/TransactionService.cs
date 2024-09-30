@@ -84,12 +84,8 @@ namespace coin_api.Application.Service
         {
             return await _context.Transactions
                                  .Where(t => t.UserId == userId && t.Type == type)
+                                 .OrderByDescending(t => t.Date)
                                  .ToListAsync();
         }
-
-
-
-
-
     }
 }
