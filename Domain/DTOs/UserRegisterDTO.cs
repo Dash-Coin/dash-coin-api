@@ -11,6 +11,8 @@ namespace coin_api.Domain.DTOs
 
         public string Password { get; set; }
 
+        public string Username { get; set; }
+
         // public string SenhaForte { get; set; } // = string.Empty;
     }
 }

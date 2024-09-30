@@ -53,6 +53,7 @@ namespace coin_api.Controller
 
             var user = new User
             {
+                username = request.Username,
                 email = request.Email,
                 senhaHash = senhaHash,
                 senha = senha,
