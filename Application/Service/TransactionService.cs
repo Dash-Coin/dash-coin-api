@@ -72,11 +72,12 @@ namespace coin_api.Application.Service
         public async Task<IEnumerable<TransactionModel>> GetPaginatedForType(int userId, int page, int pageSize)
         {
             return await _context.Transactions
-                                 .Where(t => t.userId == userId && t => t.Type) // Filtra apenas despesas
+                                 .Where(t => t.UserId == userId && t.Type == false) // Filtra apenas despesas
                                  .OrderBy(t => t.Date) // Ordena por data ou qualquer outro campo
                                  .Skip((page - 1) * pageSize) // Pula as páginas anteriores
                                  .Take(pageSize) // Limita a quantidade de itens por página
                                  .ToListAsync();
+                                //  .Where(t => t.userId == userId && t => t.Type) // Filtra apenas despesas
         }
 
         public async Task<IEnumerable<TransactionModel>> GetTransactionsForType(int userId, bool type)
